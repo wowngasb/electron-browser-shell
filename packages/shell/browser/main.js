@@ -1,6 +1,6 @@
 const path = require('path')
 const { promises: fs } = require('fs')
-const { app, session, BrowserWindow } = require('electron')
+const { app, webFrame, session, BrowserWindow } = require('electron')
 
 const { Tabs } = require('./tabs')
 const { Extensions } = require('electron-chrome-extensions')
@@ -235,12 +235,13 @@ class Browser {
       this.extensions.addExtension(extension)
     })
 
+    let win = null;
     this.extensions.on('active-tab-changed', (tab, browserWindow) => {
-      const win = this.getWindowFromBrowserWindow(browserWindow)
+      win = this.getWindowFromBrowserWindow(browserWindow)
       win.tabs.select(tab.id)
     })
 
-    this.createWindow({ initialUrl: newTabUrl })
+    win = this.createWindow({ initialUrl: newTabUrl })
   }
 
   initSession() {
@@ -263,8 +264,11 @@ class Browser {
         height: 720,
         frame: false,
         webPreferences: {
+          webSecurity: false,
+          allowRunningInsecureContent: true,
+          allowDisplayingInsecureContent: true,
           sandbox: true,
-          nodeIntegration: false,
+          nodeIntegration: true,
           enableRemoteModule: false,
           contextIsolation: true,
           worldSafeExecuteJavaScript: true,

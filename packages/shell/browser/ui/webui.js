@@ -107,7 +107,7 @@ class WebUI {
   }
 
   createTabNode(tab) {
-    const tabElem = this.$.tabTemplate.content.cloneNode(true).firstElementChild
+    const tabElem = this.$.tabTemplate.cloneNode(true).firstElementChild
     tabElem.dataset.tabId = tab.id
 
     tabElem.addEventListener('click', () => {
@@ -150,4 +150,10 @@ class WebUI {
   }
 }
 
-window.webui = new WebUI()
+window.module = window.module || {}
+
+window.initWebUI = function() {
+  window.webui = new WebUI()
+}
+
+
