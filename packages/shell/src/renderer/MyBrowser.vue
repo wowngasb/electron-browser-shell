@@ -1,5 +1,6 @@
 <template>
-  <div id="my-browser">
+  <div id="app">
+    <h1>dafsrgdthyftfht</h1>
     <div class="topbar">
       <div id="tabstrip">
         <ul class="tab-list">

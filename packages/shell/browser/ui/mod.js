@@ -87,7 +87,7 @@ var require, define;
     };
 
     require = function(id) {
-        if(id == 'path') return {};
+        if(id == 'path' || id == 'electron') return {};
         
         // compatible with require([dep, dep2...]) syntax.
         if (id && id.splice) {

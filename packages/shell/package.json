@@ -12,16 +12,16 @@
   "author": "Samuel Maddock <sam@samuelmaddock.com>",
   "private": true,
   "dependencies": {
-    "vue": "^2.5.16",
     "axios": "^0.18.0",
+    "electron": "^11.2.1",
+    "electron-chrome-context-menu": "^1.0.1",
+    "electron-chrome-extensions": "^3.1.0",
+    "view-design": "^4.5.0",
+    "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.0",
-    
-    "electron": "^11.2.1",
-    "electron-chrome-context-menu": "^1.0.1",
-    "electron-chrome-extensions": "^3.1.0"
+    "vuex-electron": "^1.0.0"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
