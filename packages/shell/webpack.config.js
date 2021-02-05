@@ -1,5 +1,7 @@
 process.env.BABEL_ENV = 'renderer'
 
+process.env.NODE_ENV = 'development'
+
 const path = require('path')
 const webpack = require('webpack')
 
@@ -33,6 +35,7 @@ let preload = {
  */
 
 let rendererConfig = {
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: '#cheap-source-map',
   entry: {
     renderer: path.join(__dirname, './src/renderer/main.js')
@@ -119,7 +122,10 @@ let rendererConfig = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({ filename: 'styles.css' }),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`
+    })
   ],
   output: {
     filename: '[name].js',
@@ -141,12 +147,8 @@ let rendererConfig = {
  */
 if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = ''
-
   rendererConfig.plugins.push(
     new MinifyPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })

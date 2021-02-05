@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: 'App',
+  name: 'MyBrowser',
   mounted() {
     this.$nextTick(() => {
       window.initWebUI && window.initWebUI()

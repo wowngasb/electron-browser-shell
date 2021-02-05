@@ -6,3 +6,5 @@ disabled/
 
 
 node_modules
+
+packages/vue-devtools-5.1.1/

@@ -222,6 +222,7 @@ class Browser {
       },
     })
 
+
     const webuiExtension = await this.session.loadExtension(path.join(__dirname, 'ui'))
     webuiExtensionId = webuiExtension.id
 

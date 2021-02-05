@@ -16,6 +16,7 @@
     "electron": "^11.2.1",
     "electron-chrome-context-menu": "^1.0.1",
     "electron-chrome-extensions": "^3.1.0",
+    "js-cookie": "^2.2.1",
     "view-design": "^4.5.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
