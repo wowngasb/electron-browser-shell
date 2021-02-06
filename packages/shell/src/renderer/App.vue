@@ -136,7 +136,7 @@
           </Sider>
         </LayoutDrawer>
         <Layout :style="{ padding: '0px', marginLeft: D.drawLeft + 'px' }">
-          <Content :style="{ padding: '5px', background: '#fff' }">
+          <Content :style="{ height: '64px', padding: '5px', background: '#fff' }">
             <MyBrowser :onAction="onAction" />
           </Content>
         </Layout>
@@ -185,17 +185,33 @@ export default {
       set(val) {
         this.$store.state.D.showDraw = val
       }
+    },
+    activeTabId: {
+      get() {
+        return this.$store.state.activeTabId
+      },
+      set(id) {
+        id = parseInt(id)
+        if (id) {
+          this.$store.state.activeTabId = id
+          types.updateTab(id, { active: true })
+        }
+      }
     }
   },
   created() {
     types.setupBrowserListeners(this.$store.state)
 
     this.$watch('$store.state.D', (val, old) => {
-      console.log(`state.D change`, val)
-      types.autoSetBrowserViewBounds(this.D)
+      this.$nextTick(() => {
+        console.log(`state.D change`, val)
+        types.autoSetBrowserViewBounds(this.D)
+      })
     }, { deep: true })
 
-    types.autoSetBrowserViewBounds(this.D)
+    this.$nextTick(() => {
+      types.autoSetBrowserViewBounds(this.D)
+    })
   },
   methods: {
     onAction(action, payload) {
@@ -218,6 +234,10 @@ export default {
         this.showDraw = payload.show
       } else if (action == 'dev_reload') {
         location.reload(true)
+      } else if (action == 'active_tab') {
+        if (payload.tab && payload.tab.id) {
+          this.activeTabId = payload.tab.id
+        }
       } else if (action == 'add_tab') {
         types.createTab()
       } else if (action == 'reload_tab') {

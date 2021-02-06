@@ -6,7 +6,7 @@
 
 .tabstrip {
   width: 100%;
-  height: 32px;
+  height: 24px;
   display: flex;
   flex-direction: row;
 }
@@ -34,7 +34,7 @@
 }
 
 .tab {
-  padding: 3px 8px;
+  padding: 1px 10px;
   height: 100%;
   overflow: hidden;
   display: flex;
@@ -43,7 +43,8 @@
   box-shadow: inset -1px 0 0 0 rgba(0, 0, 0, 0.33);
 }
 
-.tab .active {
+.tab-active {
+  color: #2d8cf0;
   background: #f0faff;
 }
 
@@ -61,6 +62,10 @@
   overflow: hidden;
   font-size: 12px;
   user-select: none;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tab .controls {
@@ -76,7 +81,7 @@
   margin-left: 3px;
   width: 16px;
   height: 16px;
-  color: #aaa;
+  color: #515a6e;
   font-size: 10px;
   vertical-align: middle;
   line-height: 0;
@@ -89,7 +94,7 @@
 
 .toolbar {
   height: 30px;
-  background-color: #745c97;
+  background: #fff;
   display: flex;
   align-items: center;
   padding: 3px 8px;
@@ -108,8 +113,8 @@
 .address-bar input {
   width: 100%;
   height: 100%;
-  background: #39375b;
-  color: #ececec;
+  background: #e8ebf0;
+  color: #515a6e;
   border: none;
   border-radius: 32px;
   padding: 0 8px;
@@ -130,12 +135,18 @@
   <div class="topbar">
     <div class="tabstrip">
       <ul class="tab-list">
-        <li v-for="tab in tabList" :key="tab.id" :class="{ active: tab.active, tab: 1 }">
+        <li
+          v-for="(tab, idx) in tabList"
+          :key="tab.id"
+          :class="{ 'tab-active': tab.id == activeTabId, tab: 1 }"
+        >
           <img class="favicon" :src="tab.favIconUrl" />
-          <span class="title">{{ tab.title }}</span>
+          <span @click="onAction('active_tab', { tab })" class="title">{{ tab.title }}</span>
           <div class="controls">
             <button class="control audio" :disabled="!tab.audible">🔊</button>
-            <button class="control close" @click="onAction('close_tab', { tab })">🗙</button>
+            <button class="control close" @click="onAction('close_tab', { tab })">
+              🗙
+            </button>
           </div>
         </li>
       </ul>
@@ -184,17 +195,8 @@ export default {
     tabList() {
       return this.$store.state.tabList
     },
-    activeTabId: {
-      get() {
-        return this.$store.state.activeTabId
-      },
-      set(id) {
-        id = parseInt(id)
-        if (id) {
-          this.$store.state.activeTabId = id
-          types.updateTab(id, { active: true })
-        }
-      }
+    activeTabId() {
+      return this.$store.state.activeTabId
     }
   },
   mounted() {

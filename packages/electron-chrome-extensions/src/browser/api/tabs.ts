@@ -260,7 +260,7 @@ export class TabsAPI {
       win.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
     }
     if (action == 'setViewBounds' && views) {
-      views[0]?.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
+      views.forEach(view => view.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height }))
     }
   }
 
