@@ -3,9 +3,10 @@ const { promises: fs } = require('fs')
 const { app, webFrame, session, BrowserWindow } = require('electron')
 
 const { Tabs } = require('./tabs')
-const { Extensions } = require('electron-chrome-extensions')
+const { Extensions } = require('../../electron-chrome-extensions')
 const { setupMenu } = require('./menu')
-const { buildChromeContextMenu } = require('electron-chrome-context-menu')
+const { buildChromeContextMenu } = require('../../electron-chrome-context-menu')
+const ChromeExtensions = Extensions
 
 let webuiExtensionId
 
@@ -181,7 +182,7 @@ class Browser {
     const browserPreload = path.join(__dirname, '../preload.js')
     this.session.setPreloads([browserPreload])
 
-    this.extensions = new Extensions({
+    this.extensions = new ChromeExtensions({
       session: this.session,
 
       createTab: (details) => {
@@ -222,7 +223,6 @@ class Browser {
       },
     })
 
-
     const webuiExtension = await this.session.loadExtension(path.join(__dirname, 'ui'))
     webuiExtensionId = webuiExtension.id
 
@@ -235,6 +235,8 @@ class Browser {
     installedExtensions.forEach((extension) => {
       this.extensions.addExtension(extension)
     })
+
+    // await this.session.loadExtension(path.join(__dirname, '../../vue-devtools'))
 
     let win = null;
     this.extensions.on('active-tab-changed', (tab, browserWindow) => {

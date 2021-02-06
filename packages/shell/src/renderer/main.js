@@ -17,16 +17,14 @@ import * as storage from "@/storage"
 let app = {}
 
 if (window && process.env.NODE_ENV !== 'production') {
-  window.app = app;
-  window.util = util;
-  window.types = types;
-  window.storage = storage;
-  window.j = o => JSON.parse(JSON.stringify(o));
-
   Vue.config.silent = false;
   Vue.config.devtools = true;
+  Vue.config.productionTip = true;
+} else {
+  Vue.config.silent = true;
+  Vue.config.devtools = false;
+  Vue.config.productionTip = false;
 }
-Vue.config.productionTip = false;
 
 Vue.http = Vue.prototype.$http = axios
 
@@ -44,3 +42,19 @@ app = new Vue({
     return h(App)
   }
 })
+
+if (window && process.env.NODE_ENV !== 'production') {
+  window.Vue = Vue
+  window.app = app
+  window.util = util
+  window.types = types
+  window.storage = storage
+  window.j = o => JSON.parse(JSON.stringify(o))
+  
+  console._warn = console.warn
+  console.warn = () => { }
+  setTimeout(() => {
+    console.warn = console._warn || console.warn
+    console.log('after clear warn')
+  }, 1000);
+}

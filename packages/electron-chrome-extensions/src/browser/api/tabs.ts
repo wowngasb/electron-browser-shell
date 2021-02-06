@@ -14,11 +14,13 @@ export class TabsAPI {
     store.handle('tabs.get', this.get.bind(this))
     store.handle('tabs.getAllInWindow', this.getAllInWindow.bind(this))
     store.handle('tabs.getCurrent', this.getCurrent.bind(this))
+    store.handle('tabs.getCurrentEx', this.getCurrentEx.bind(this))
     store.handle('tabs.create', this.create.bind(this))
     store.handle('tabs.insertCSS', this.insertCSS.bind(this))
     store.handle('tabs.query', this.query.bind(this))
     store.handle('tabs.reload', this.reload.bind(this))
     store.handle('tabs.update', this.update.bind(this))
+    store.handle('tabs.onAction', this.onAction.bind(this))
     store.handle('tabs.remove', this.remove.bind(this))
     store.handle('tabs.goForward', this.goForward.bind(this))
     store.handle('tabs.goBack', this.goBack.bind(this))
@@ -142,6 +144,22 @@ export class TabsAPI {
     return tab ? this.getTabDetails(tab) : undefined
   }
 
+  private getCurrentEx(event: Electron.IpcMainInvokeEvent) {
+    const tab = this.store.getActiveTabFromWebContents(event.sender)
+    const win = tab ? this.store.tabToWindow.get(tab) : undefined
+
+    if(tab && win) {
+      return {
+        ...this.getTabDetails(tab),
+        size: win.getSize(),
+        position: win.getPosition(),
+        bounds: win.getBounds()
+      }
+    } else {
+      return {}
+    }
+  }
+
   private async create(
     event: Electron.IpcMainInvokeEvent,
     details: chrome.tabs.CreateProperties = {}
@@ -225,6 +243,20 @@ export class TabsAPI {
       tab.reload()
     }
   }
+
+  private onAction(event: Electron.IpcMainInvokeEvent, arg1?: unknown, arg2?: unknown) {
+    const action: string | undefined = typeof arg1 === 'string' ? arg1 : undefined
+    const params: any = (typeof arg1 === 'object' ? (arg1 as any) : (arg2 as any)) || {}
+
+    const tab = this.store.getActiveTabFromWebContents(event.sender)
+    const win = tab ? this.store.tabToWindow.get(tab) : undefined
+    if (!tab || !win) return
+
+    if(action == 'setBounds') {
+      win.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
+    }
+  }
+  
 
   private async update(event: Electron.IpcMainInvokeEvent, arg1?: unknown, arg2?: unknown) {
     let tabId = typeof arg1 === 'number' ? arg1 : undefined

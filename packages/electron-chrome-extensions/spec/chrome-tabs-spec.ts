@@ -36,6 +36,13 @@ describe('chrome.tabs', () => {
     })
   })
 
+  describe('getCurrentEx()', () => {
+    it('fails to get the active tab from a non-tab context', async () => {
+      const result = await browser.exec('tabs.getCurrentEx')
+      expect(result).to.not.be.an('object')
+    })
+  })
+
   describe('query()', () => {
     it('gets the active tab', async () => {
       const result = await browser.exec('tabs.query', { active: true })

@@ -40,6 +40,7 @@ class Tab {
   }
 
   show() {
+    console.info(`call Tab.show for debug xxxx`)
     const [width, height] = this.window.getSize()
     this.view.setBounds({ x: 0, y: toolbarHeight, width: width, height: height - toolbarHeight })
     this.view.setAutoResize({ width: true, height: true })

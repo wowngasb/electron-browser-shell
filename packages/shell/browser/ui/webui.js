@@ -17,9 +17,6 @@ class WebUI {
 
       browserActions: $('#actions'),
 
-      minimizeButton: $('#minimize'),
-      maximizeButton: $('#maximize'),
-      closeButton: $('#close'),
     }
 
     this.$.createTabButton.addEventListener('click', () => chrome.tabs.create())
@@ -28,17 +25,6 @@ class WebUI {
     this.$.reloadButton.addEventListener('click', () => chrome.tabs.reload())
     this.$.addressUrl.addEventListener('keypress', this.onAddressUrlKeyPress.bind(this))
 
-    this.$.minimizeButton.addEventListener('click', () =>
-      chrome.windows.get(chrome.windows.WINDOW_ID_CURRENT, (win) => {
-        chrome.windows.update(win.id, { state: win.state === 'minimized' ? 'normal' : 'minimized' })
-      })
-    )
-    this.$.maximizeButton.addEventListener('click', () =>
-      chrome.windows.get(chrome.windows.WINDOW_ID_CURRENT, (win) => {
-        chrome.windows.update(win.id, { state: win.state === 'maximized' ? 'normal' : 'maximized' })
-      })
-    )
-    this.$.closeButton.addEventListener('click', () => chrome.windows.remove())
 
     this.setupBrowserListeners()
     this.initTabs()

@@ -17,70 +17,72 @@
   left: 20px;
 }
 .layout-nav {
-  width: 420px;
+  float: left;
   margin: 0 auto;
-  margin-right: 20px;
+  margin-left: 40px;
+  margin-top: 5px;
 }
 </style>
 
 <template>
   <div class="layout">
     <Layout>
-      <Header>
-        <Menu mode="horizontal" theme="dark" active-name="1">
-          <div class="layout-logo"></div>
-          <div class="layout-nav">
-            <MenuItem name="1">
-              <Icon type="ios-navigate"></Icon>
-              Item 1
-            </MenuItem>
-            <MenuItem name="2">
-              <Icon type="ios-keypad"></Icon>
-              Item 2
-            </MenuItem>
-            <MenuItem name="3">
-              <Icon type="ios-analytics"></Icon>
-              Item 3
-            </MenuItem>
-            <MenuItem name="4">
-              <Icon type="ios-paper"></Icon>
-              Item 4
-            </MenuItem>
-          </div>
-        </Menu>
+      <Header style="padding: 0">
+        <div class="app-drag">
+          <Menu
+            mode="horizontal"
+            theme="dark"
+            @on-select="onAction('menu', { menu: $event })"
+            active-name="1"
+          >
+            <div class="layout-logo">
+              <img style="width: 160px" src="~@/assets/logo.png" alt="electron-vue" />
+            </div>
+            <div class="layout-nav">
+              <MenuItem
+                v-for="menu in topMenus"
+                :key="menu.key"
+                :name="menu.key"
+                style="-webkit-app-region: no-drag"
+              >
+                <Icon :type="menu.icon"></Icon>
+                {{ menu.text }}
+              </MenuItem>
+            </div>
+            <div style="float: right" class="window-controls">
+              <button @click="onAction('mini')" class="control">🗕</button>
+              <button @click="onAction('max')" class="control">🗖</button>
+              <button @click="onAction('close')" class="control">🗙</button>
+            </div>
+          </Menu>
+        </div>
       </Header>
       <Layout>
-        <Sider hide-trigger :style="{ background: '#fff' }">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
-            <Submenu name="1">
-              <template slot="title">
-                <Icon type="ios-navigate"></Icon>
-                Item 1
-              </template>
-              <MenuItem name="1-1">Option 1</MenuItem>
-              <MenuItem name="1-2">Option 2</MenuItem>
-              <MenuItem name="1-3">Option 3</MenuItem>
-            </Submenu>
-            <Submenu name="2">
-              <template slot="title">
-                <Icon type="ios-keypad"></Icon>
-                Item 2
-              </template>
-              <MenuItem name="2-1">Option 1</MenuItem>
-              <MenuItem name="2-2">Option 2</MenuItem>
-            </Submenu>
-            <Submenu name="3">
-              <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                Item 3
-              </template>
-              <MenuItem name="3-1">Option 1</MenuItem>
-              <MenuItem name="3-2">Option 2</MenuItem>
-            </Submenu>
-          </Menu>
-        </Sider>
-        <Layout :style="{ padding: '0 24px 24px' }">
-          <Content :style="{ padding: '24px', minHeight: '280px', background: '#fff' }">
+        <LayoutDrawer
+          :openDrawer="showDraw"
+          :showMask="false"
+          placement="left"
+          @change="onAction('draw', { show: $event })"
+        >
+          <div class="setting" slot="handler">
+            <Icon :type="showDraw ? 'ios-close' : 'ios-settings-outline'" />
+          </div>
+          <Sider hide-trigger :style="{ background: '#fff' }">
+            <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+              <Submenu name="1">
+                <template slot="title">
+                  <Icon type="ios-navigate"></Icon>
+                  Item 1
+                </template>
+                <MenuItem name="1-1">Option 1</MenuItem>
+                <MenuItem name="1-2">Option 2</MenuItem>
+                <MenuItem name="1-3">Option 3</MenuItem>
+              </Submenu>
+            </Menu>
+          </Sider>
+        </LayoutDrawer>
+        <Layout :style="{ padding: '0px', marginLeft: D.drawLeft + 'px' }">
+          <Content :style="{ padding: '5px', background: '#fff' }">
             <MyBrowser />
           </Content>
         </Layout>
@@ -89,9 +91,69 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 import MyBrowser from '@/MyBrowser.vue'
+import LayoutDrawer from '@/components/LayoutDrawer.vue'
+
+const topMenus = [{
+  key: 'adq',
+  icon: 'ios-navigate',
+  text: 'ADQ广告',
+}, {
+  key: 'mp',
+  icon: 'ios-keypad',
+  text: 'MP广告',
+}, {
+  key: 'mass',
+  icon: 'ios-analytics',
+  text: '公众号',
+}, {
+  key: 'more',
+  icon: 'ios-paper',
+  text: '更多',
+}];
 
 export default {
-  components: { MyBrowser },
+  components: { MyBrowser, LayoutDrawer },
+  data() {
+    return {
+      showSetting: true,
+      topMenus
+    }
+  },
+  computed: {
+    ...mapState({
+      showDraw: state => state.D.showDraw
+    }),
+  },
+  created() {
+    this.$watch('$store.state.D', (val, old) => {
+      console.log(`state change`, val)
+
+    }, { deep: true });
+  },
+  methods: {
+    onAction(action, payload) {
+      payload = payload || {}
+      console.log(`App onAction ${action}`, payload)
+
+      if (action == 'mini') {
+        chrome.windows.get(chrome.windows.WINDOW_ID_CURRENT, (win) => {
+          chrome.windows.update(win.id, { state: win.state === 'minimized' ? 'normal' : 'minimized' })
+        })
+      } else if (action == 'max') {
+        chrome.windows.get(chrome.windows.WINDOW_ID_CURRENT, (win) => {
+          chrome.windows.update(win.id, { state: win.state === 'maximized' ? 'normal' : 'maximized' })
+        })
+      } else if (action == 'close') {
+        chrome.windows.remove()
+      } else if (action == 'menu') {
+
+      } else if (action == 'draw') {
+        this.showDraw = payload.show
+      }
+    }
+  }
 }
 </script>

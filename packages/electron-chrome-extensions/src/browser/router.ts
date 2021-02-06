@@ -83,7 +83,7 @@ export class ExtensionRouter {
 
     const result = await handler.callback(extEvent, ...args)
 
-    debug(`${handlerName} result: %r`, result)
+    handlerName == 'tabs.query' ? debug(`${handlerName} tabIds: %r`, ((result as any) as Array<any>).map(i => `${i.id} => ${i.url}`)) : debug(`${handlerName} result: %r`, result)
 
     return result
   }
