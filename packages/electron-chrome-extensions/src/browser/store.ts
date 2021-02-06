@@ -24,6 +24,8 @@ export class ExtensionStore extends EventEmitter {
    */
   tabToWindow = new WeakMap<Electron.WebContents, Electron.BrowserWindow>()
 
+  tabToView = new WeakMap<Electron.WebContents, Electron.BrowserView>()
+
   extensionHosts = new Set<Electron.WebContents>()
 
   /** Map of windows to their active tab. */
@@ -126,11 +128,13 @@ export class ExtensionStore extends EventEmitter {
     return Array.from(this.tabs).find((tab) => !tab.isDestroyed() && tab.id === tabId)
   }
 
-  addTab(tab: Electron.WebContents, window: Electron.BrowserWindow) {
+  addTab(tab: Electron.WebContents, window: Electron.BrowserWindow, view: Electron.BrowserView) {
     if (this.tabs.has(tab)) return
 
     this.tabs.add(tab)
     this.tabToWindow.set(tab, window)
+    this.tabToView.set(tab, view)
+
     this.addWindow(window)
 
     const activeTab = this.getActiveTabFromWebContents(tab)
@@ -148,7 +152,7 @@ export class ExtensionStore extends EventEmitter {
 
     this.tabs.delete(tab)
     this.tabToWindow.delete(tab)
-
+    this.tabToView.delete(tab)
     // TODO: clear active tab
 
     // Clear window if it has no remaining tabs
@@ -175,18 +179,20 @@ export class ExtensionStore extends EventEmitter {
     const result = await this.impl.createTab(details)
 
     if (!Array.isArray(result)) {
-      throw new Error('createTab must return an array of [tab, window]')
+      throw new Error('createTab must return an array of [tab, window, view]')
     }
 
-    const [tab, window] = result
+    const [tab, window, view] = result
 
     if (typeof tab !== 'object' || !webContents.fromId(tab.id)) {
       throw new Error('createTab must return a WebContents')
     } else if (typeof window !== 'object') {
       throw new Error('createTab must return a BrowserWindow')
+    } else if (typeof view !== 'object') {
+      throw new Error('createTab must return a BrowserView')
     }
 
-    this.addTab(tab, window)
+    this.addTab(tab, window, view)
 
     return tab
   }

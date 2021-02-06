@@ -51,7 +51,7 @@ export class TabsAPI {
     })
 
     const faviconHandler = (event: Electron.Event, favicons: string[]) => {
-      ;(tab as TabContents).favicon = favicons[0]
+      ; (tab as TabContents).favicon = favicons[0]
       this.onUpdated(tabId)
     }
     tab.on('page-favicon-updated', faviconHandler)
@@ -147,13 +147,15 @@ export class TabsAPI {
   private getCurrentEx(event: Electron.IpcMainInvokeEvent) {
     const tab = this.store.getActiveTabFromWebContents(event.sender)
     const win = tab ? this.store.tabToWindow.get(tab) : undefined
+    const view = tab ? this.store.tabToView.get(tab) : undefined
 
-    if(tab && win) {
+    if (tab && win && view) {
       return {
         ...this.getTabDetails(tab),
-        size: win.getSize(),
-        position: win.getPosition(),
-        bounds: win.getBounds()
+        size: win ? win.getSize() : null,
+        position: win ? win.getPosition() : null,
+        bounds: win ? win.getBounds() : null,
+        viewBounds: view ? view.getBounds() : null
       }
     } else {
       return {}
@@ -250,13 +252,18 @@ export class TabsAPI {
 
     const tab = this.store.getActiveTabFromWebContents(event.sender)
     const win = tab ? this.store.tabToWindow.get(tab) : undefined
-    if (!tab || !win) return
+    const view = tab ? this.store.tabToView.get(tab) : undefined
 
-    if(action == 'setBounds') {
+    if (!tab) return
+
+    if (action == 'setBounds' && win) {
       win.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
     }
+    if (action == 'setViewBounds' && view) {
+      view.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
+    }
   }
-  
+
 
   private async update(event: Electron.IpcMainInvokeEvent, arg1?: unknown, arg2?: unknown) {
     let tabId = typeof arg1 === 'number' ? arg1 : undefined
@@ -348,7 +355,7 @@ export class TabsAPI {
 
     for (const prop of compareProps) {
       if (details[prop] !== prevDetails[prop]) {
-        ;(changeInfo as any)[prop] = details[prop]
+        ; (changeInfo as any)[prop] = details[prop]
         didUpdate = true
       }
     }

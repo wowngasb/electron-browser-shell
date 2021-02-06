@@ -59,17 +59,17 @@ export default new Vuex.Store({
     },
     [types.D](state) {
       let D = state.D
-
-      let browserWidth = D.clientWidth
-      let browserHeight = D.clientHeight - 64
+      
       let browserYScrollSize = 0
       let browserX = 0
-      let browserY = 64
+      let browserY = 62 + 64
       let drawLeft = 0
 
-      browserWidth = D.showDraw ? (browserWidth - 200) : browserWidth
-      browserX = D.showDraw ? 200 : browserX
+      browserX = D.showDraw ? (browserX + 200) : browserX
       drawLeft = D.showDraw ? 200 : drawLeft
+
+      let browserWidth = D.clientWidth - browserX
+      let browserHeight = D.clientHeight - browserY
       return {
         drawLeft,
         browserX,

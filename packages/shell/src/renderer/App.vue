@@ -96,6 +96,8 @@ import { mapState } from 'vuex'
 import MyBrowser from '@/MyBrowser.vue'
 import LayoutDrawer from '@/components/LayoutDrawer.vue'
 
+import * as types from '@/types'
+
 const topMenus = [{
   key: 'adq',
   icon: 'ios-navigate',
@@ -129,9 +131,11 @@ export default {
   },
   created() {
     this.$watch('$store.state.D', (val, old) => {
-      console.log(`state change`, val)
-      
+      console.log(`state.D change`, val)
+      types.autoSetBrowserViewBounds(this.D);
     }, { deep: true });
+
+    types.autoSetBrowserViewBounds(this.D);
   },
   methods: {
     onAction(action, payload) {

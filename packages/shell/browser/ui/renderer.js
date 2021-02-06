@@ -1702,6 +1702,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/_vuex@3.6.2@vuex/dist/vuex.esm.js");
 /* harmony import */ var _MyBrowser_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/MyBrowser.vue */ "./src/renderer/MyBrowser.vue");
 /* harmony import */ var _components_LayoutDrawer_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/LayoutDrawer.vue */ "./src/renderer/components/LayoutDrawer.vue");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/types */ "./src/renderer/types.js");
 
 //
 //
@@ -1795,6 +1796,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 
 
 
@@ -1834,9 +1837,14 @@ var topMenus = [{
     }
   })),
   created: function created() {
+    var _this = this;
+
     this.$watch('$store.state.D', function (val, old) {
-      console.log('state change', val);
+      console.log('state.D change', val);
+      _types__WEBPACK_IMPORTED_MODULE_4__["autoSetBrowserViewBounds"](_this.D);
     }, { deep: true });
+
+    _types__WEBPACK_IMPORTED_MODULE_4__["autoSetBrowserViewBounds"](this.D);
   },
 
   methods: {
@@ -68600,16 +68608,16 @@ vue__WEBPACK_IMPORTED_MODULE_2__["default"].mixin({
   }), babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_getters, _types__WEBPACK_IMPORTED_MODULE_5__["D"], function (state) {
     var D = state.D;
 
-    var browserWidth = D.clientWidth;
-    var browserHeight = D.clientHeight - 64;
     var browserYScrollSize = 0;
     var browserX = 0;
-    var browserY = 64;
+    var browserY = 62 + 64;
     var drawLeft = 0;
 
-    browserWidth = D.showDraw ? browserWidth - 200 : browserWidth;
-    browserX = D.showDraw ? 200 : browserX;
+    browserX = D.showDraw ? browserX + 200 : browserX;
     drawLeft = D.showDraw ? 200 : drawLeft;
+
+    var browserWidth = D.clientWidth - browserX;
+    var browserHeight = D.clientHeight - browserY;
     return babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({
       drawLeft: drawLeft,
       browserX: browserX,
@@ -68628,7 +68636,7 @@ vue__WEBPACK_IMPORTED_MODULE_2__["default"].mixin({
 /*!*******************************!*\
   !*** ./src/renderer/types.js ***!
   \*******************************/
-/*! exports provided: D, user, INIT_APP, UPDATE_USER, LOGOUT, C_Default, C_Info, C_Success, C_Normal, C_Warning, C_Error */
+/*! exports provided: D, user, INIT_APP, UPDATE_USER, LOGOUT, C_Default, C_Info, C_Success, C_Normal, C_Warning, C_Error, autoSetBrowserViewBounds */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -68644,6 +68652,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C_Normal", function() { return C_Normal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C_Warning", function() { return C_Warning; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C_Error", function() { return C_Error; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoSetBrowserViewBounds", function() { return autoSetBrowserViewBounds; });
 // state
 var D = "D";
 var user = "user";
@@ -68658,6 +68667,20 @@ var C_Success = "#19be6b";
 var C_Normal = "#1c2438";
 var C_Warning = "#ff9900";
 var C_Error = "#ed3f14";
+
+var autoSetBrowserViewBounds = function autoSetBrowserViewBounds(_ref) {
+  var browserWidth = _ref.browserWidth,
+      browserHeight = _ref.browserHeight,
+      browserX = _ref.browserX,
+      browserY = _ref.browserY;
+
+  chrome.tabs.onAction('setViewBounds', {
+    x: browserX,
+    y: browserY,
+    width: browserWidth,
+    height: browserHeight
+  });
+};
 
 /***/ }),
 
