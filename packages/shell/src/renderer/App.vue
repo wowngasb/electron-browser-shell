@@ -79,7 +79,7 @@
                 <Button
                   class="control"
                   size="small"
-                  @click="onAction('reload')"
+                  @click="onAction('dev_reload')"
                   icon="ios-color-filter-outline"
                 ></Button>
                 <button @click="onAction('mini')" class="control">🗕</button>
@@ -137,7 +137,7 @@
         </LayoutDrawer>
         <Layout :style="{ padding: '0px', marginLeft: D.drawLeft + 'px' }">
           <Content :style="{ padding: '5px', background: '#fff' }">
-            <MyBrowser />
+            <MyBrowser :onAction="onAction" />
           </Content>
         </Layout>
       </Layout>
@@ -145,6 +145,7 @@
   </div>
 </template>
 <script>
+import Vuex from 'vuex'
 import MyBrowser from '@/MyBrowser.vue'
 import LayoutDrawer from '@/components/LayoutDrawer.vue'
 
@@ -176,6 +177,7 @@ export default {
     }
   },
   computed: {
+    ...Vuex.mapGetters([types.activeTab]),
     showDraw: {
       get() {
         return this.D.showDraw
@@ -214,8 +216,20 @@ export default {
 
       } else if (action == 'draw') {
         this.showDraw = payload.show
-      } else if (action == 'reload') {
+      } else if (action == 'dev_reload') {
         location.reload(true)
+      } else if (action == 'add_tab') {
+        types.createTab()
+      } else if (action == 'reload_tab') {
+        types.reloadTab()
+      } else if (action == 'goback') {
+        types.goBack()
+      } else if (action == 'goforward') {
+        types.goForward()
+      } else if (action == 'close_tab') {
+        payload.tab && payload.tab.id && types.removeTab(payload.tab.id)
+      } else if (action == 'change_url') {
+        this.activeTab && this.activeTab.id && types.updateTab(this.activeTab.id, { url: payload.url })
       }
     }
   }

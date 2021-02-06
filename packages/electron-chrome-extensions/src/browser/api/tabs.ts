@@ -147,7 +147,7 @@ export class TabsAPI {
   private getCurrentEx(event: Electron.IpcMainInvokeEvent) {
     const tab = this.store.getActiveTabFromWebContents(event.sender)
     const win = tab ? this.store.tabToWindow.get(tab) : undefined
-    const view = win?.getBrowserView()
+    const views = win?.getBrowserViews()
 
     if (tab) {
       return {
@@ -155,7 +155,7 @@ export class TabsAPI {
         size: win ? win.getSize() : null,
         position: win ? win.getPosition() : null,
         bounds: win ? win.getBounds() : null,
-        viewBounds: view ? view.getBounds() : null
+        viewBounds: views ? views[0]?.getBounds() : null
       }
     } else {
       return {}
@@ -252,15 +252,15 @@ export class TabsAPI {
 
     const tab = this.store.getActiveTabFromWebContents(event.sender)
     const win = tab ? this.store.tabToWindow.get(tab) : undefined
-    const view = win?.getBrowserView()
+    const views = win?.getBrowserViews()
 
     if (!tab) return
 
     if (action == 'setBounds' && win) {
       win.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
     }
-    if (action == 'setViewBounds' && view) {
-      view.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
+    if (action == 'setViewBounds' && views) {
+      views[0]?.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
     }
   }
 

@@ -85,3 +85,13 @@ export const updateTab = (id, params) => {
 export const removeTab = id => {
   chrome.tabs.remove(id)
 }
+
+export const createTab = () => chrome.tabs.create()
+
+export const goBack = () => chrome.tabs.goBack()
+
+export const goForward = () => chrome.tabs.goForward()
+
+export const reloadTab = () => chrome.tabs.reload()
+
+
