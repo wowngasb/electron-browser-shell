@@ -1,178 +1,112 @@
 <template>
-  <div id="my-browser">
+  <div>
     <div class="topbar">
-      <div id="tabstrip">
-        <ul class="tab-list">
-          <div v-show="0" id="tabtemplate">
-            <li class="tab">
-              <img class="favicon" />
-              <span class="title"></span>
-              <div class="controls">
-                <button class="control audio" disabled>🔊</button>
-                <button class="control close">🗙</button>
-              </div>
-            </li>
-          </div>
-        </ul>
-        <button id="createtab">+</button>
-      </div>
-      <div class="toolbar">
-        <div class="page-controls">
-          <button id="goback" class="control">⬅️</button>
-          <button id="goforward" class="control">➡️</button>
-          <button id="reload" class="control">🔄</button>
-        </div>
-        <div class="address-bar">
-          <input id="addressurl" spellcheck="false" />
-        </div>
-        <div>
-          <browser-action-list id="actions"></browser-action-list>
-        </div>
+      <Tabs
+        type="card"
+        v-model="activeTabId"
+        closable
+        @on-tab-remove="onAction('remove_tab', { id: $event })"
+        @on-drag-drop="handleDragDrop"
+      >
+        <TabPane
+          :closable="tab.id != 'add_tab'"
+          :label="labelRender(tab)"
+          v-for="tab in tabList"
+          :key="tab.id"
+          :name="`${tab.id}`"
+        >
+          <browser-action-list :tab="tab.id"></browser-action-list>
+        </TabPane>
+      </Tabs>
+    </div>
+
+    <div class="toolbar">
+      <ButtonGroup>
+        <Button icon="ios-skip-backward"></Button>
+        <Button icon="ios-skip-forward"></Button>
+      </ButtonGroup>
+      <div class="address-bar">
+        <Input
+          search
+          :value="activeTab ? activeTab.url : ''"
+          placeholder="Enter name"
+          @on-search="onAction('set_url', { url: $event })"
+        >
+          <Icon type="ios-lock" slot="prefix" />
+        </Input>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Vuex from 'vuex'
+import { Icon } from 'view-design';
+
+import * as types from '@/types'
+
 export default {
   name: 'MyBrowser',
+  props: {
+    onAction: {
+      type: Function,
+      default: (action, payload) =>
+        console.warn && console.warn(`MyBrowser onAction ${action}`, payload),
+    }
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    ...Vuex.mapGetters([types.activeTab]),
+    tabList() {
+      let tabList = [
+        ...this.$store.state.tabList
+      ]
+      tabList.push({
+        id: 'add_tab'
+      })
+      return tabList
+    },
+    activeTabId: {
+      get() {
+        return this.$store.state.activeTabId
+      },
+      set(id) {
+        if(id == 'add_new') {
+
+          return
+        }
+        id = parseInt(id)
+        this.$store.state.activeTabId = id
+        types.updateTab(id, { active: true })
+      }
+    }
+  },
   mounted() {
     this.$nextTick(() => {
-      window.initWebUI && window.initWebUI()
+      types.initTabs(this.$store.state)
     })
   },
+  methods: {
+    labelRender(tab) {
+      if (tab.id == 'add_tab') {
+        return h => {
+          return h('div', [
+            h('span', [' ', h(Icon, { props: { type: "md-add" } }), ' ']),
+          ])
+        }
+      }
+      return h => {
+        return h('div', [
+          h('img', { props: { src: tab.favIconUrl, alt: tab.title, 'data-audio': tab.audible } }),
+          h('span', tab.title),
+        ])
+      }
+    }
+  }
 }
 </script>
 
 <style>
-.topbar {
-  background: var(--bg-color);
-  height: 2rem;
-}
-
-/*----- TABS -----*/
-
-#tabstrip {
-  width: 100%;
-  height: 2rem;
-  display: flex;
-  flex-direction: row;
-}
-
-.tab-list {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  min-width: 0;
-}
-
-#createtab {
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-weight: bold;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-#createtab:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.tab {
-  padding: 0.2rem 0.4rem;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  width: 12rem;
-  box-shadow: inset -1px 0 0 0 rgba(0, 0, 0, 0.33);
-}
-
-.tab[data-active] {
-  background: var(--tab-color);
-}
-
-.tab .favicon[src] {
-  width: 16px;
-  height: 16px;
-  margin-right: 0.2rem;
-}
-
-.tab .title {
-  white-space: nowrap;
-  flex: 1 1 auto;
-  min-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  font-size: 0.725rem;
-  user-select: none;
-}
-
-.tab .controls {
-  flex: 0 0 auto;
-  font-size: 0;
-}
-
-.tab .controls .control {
-  background: rgba(0, 0, 0, 0.2);
-  border: none;
-  border-radius: 50%;
-  padding: 0;
-  margin-left: 0.2rem;
-  width: 1rem;
-  height: 1rem;
-  color: #aaa;
-  font-size: 0.7rem;
-  vertical-align: middle;
-  line-height: 0;
-  cursor: pointer;
-}
-
-.tab .controls .control:disabled {
-  display: none;
-}
-
-
-
-
-      /*----- TOOLBAR -----*/
-
-      .toolbar {
-        height: 1.875rem;
-        background-color: var(--tab-color);
-        display: flex;
-        align-items: center;
-        padding: 0.2rem 0.5rem;
-      }
-
-      .toolbar .page-controls {
-        margin-right: 0.5rem;
-      }
-      
-      .address-bar {
-        flex: 1 0 auto;
-        line-height: 0;
-        height: 100%;
-      }
-
-      .address-bar input {
-        width: 100%;
-        height: 100%;
-        background: var(--bg-color);
-        color: var(--text-color);
-        border: none;
-        border-radius: 2rem;
-        padding: 0 0.5rem;
-        outline: none;
-      }
-
-      .toolbar .control {
-        background: none;
-        border: none;
-        width: 1.5rem;
-        height: 1.5rem;
-        padding: 0;
-        line-height: 0;
-      }
 </style>

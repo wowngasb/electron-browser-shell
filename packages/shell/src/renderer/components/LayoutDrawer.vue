@@ -5,7 +5,14 @@
       <div ref="drawer" style="position: relative; height: 100%">
         <slot></slot>
       </div>
-      <div :class="['handler-container', placement]" ref="handler" @click="clickHandler">
+      <div
+        :style="{
+          top: (D.pageHeight - 30) / 2 + 'px',
+        }"
+        :class="['handler-container', placement]"
+        ref="handler"
+        @click="clickHandler"
+      >
         <slot name="handler"></slot>
       </div>
     </div>

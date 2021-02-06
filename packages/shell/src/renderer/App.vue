@@ -50,7 +50,7 @@
 </style>
 
 <template>
-  <div class="layout">
+  <div id="app" class="layout">
     <Layout>
       <Header style="padding: 0">
         <div class="app-drag">
@@ -115,7 +115,6 @@
           <div
             :style="{
               marginLeft: (showDraw ? -10 : 0) + 'px',
-              
             }"
             class="draw-icon"
             slot="handler"
@@ -187,12 +186,14 @@ export default {
     }
   },
   created() {
+    types.setupBrowserListeners(this.$store.state)
+
     this.$watch('$store.state.D', (val, old) => {
       console.log(`state.D change`, val)
-      types.autoSetBrowserViewBounds(this.D);
-    }, { deep: true });
+      types.autoSetBrowserViewBounds(this.D)
+    }, { deep: true })
 
-    types.autoSetBrowserViewBounds(this.D);
+    types.autoSetBrowserViewBounds(this.D)
   },
   methods: {
     onAction(action, payload) {

@@ -30,6 +30,9 @@ Vue.mixin({
 
 export default new Vuex.Store({
   state: {
+    windowId: '',
+    tabList: [],
+    activeTabId: '',
     D: {
       showDraw: true,
       clientWidth: document.documentElement.clientWidth,
@@ -50,6 +53,11 @@ export default new Vuex.Store({
   },
   mutations: {},
   getters: {
+    [types.activeTab](state) {
+      const idx = state.tabList.findIndex(tab => tab.id == state.activeTabId)
+      if (idx < 0) return null
+      return state.tabList[idx]
+    },
     [types.user](state) {
       let logined = !!state.user.uid
       return {
@@ -62,6 +70,8 @@ export default new Vuex.Store({
 
       let browserYScrollSize = 0
       let browserY = 62 + 64
+      let pageWidth = D.clientWidth
+      let pageHeight = D.clientHeight - 64
 
       let browserX = D.showDraw ? (5 + 200) : 10
       let drawLeft = D.showDraw ? 200 : 10
@@ -72,6 +82,8 @@ export default new Vuex.Store({
         drawLeft,
         browserX,
         browserY,
+        pageHeight,
+        pageWidth,
         browserWidth,
         browserHeight,
         browserYScrollSize,
