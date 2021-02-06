@@ -130,7 +130,7 @@ export default {
   created() {
     this.$watch('$store.state.D', (val, old) => {
       console.log(`state change`, val)
-
+      
     }, { deep: true });
   },
   methods: {
