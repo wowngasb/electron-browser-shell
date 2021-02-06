@@ -115,6 +115,7 @@
           <div
             :style="{
               marginLeft: (showDraw ? -10 : 0) + 'px',
+              
             }"
             class="draw-icon"
             slot="handler"

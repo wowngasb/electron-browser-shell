@@ -84,7 +84,7 @@ export default {
 .drawer {
   position: fixed;
   height: 100%;
-  transition: all 0.5s;
+  transition: all 0.1s;
   z-index: 100;
 }
 .drawer.left {
@@ -110,10 +110,9 @@ export default {
 }
 .handler-container {
   position: fixed;
-  top: 49%;
   background-color: rgba(0, 0, 0, 0.2);
   text-align: center;
-  transition: all 0.5s;
+  transition: all 0.1s;
   cursor: pointer;
 }
 .handler-container .handler {
