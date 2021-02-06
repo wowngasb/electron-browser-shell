@@ -147,9 +147,9 @@ export class TabsAPI {
   private getCurrentEx(event: Electron.IpcMainInvokeEvent) {
     const tab = this.store.getActiveTabFromWebContents(event.sender)
     const win = tab ? this.store.tabToWindow.get(tab) : undefined
-    const view = tab ? this.store.tabToView.get(tab) : undefined
+    const view = win?.getBrowserView()
 
-    if (tab && win && view) {
+    if (tab) {
       return {
         ...this.getTabDetails(tab),
         size: win ? win.getSize() : null,
@@ -252,7 +252,7 @@ export class TabsAPI {
 
     const tab = this.store.getActiveTabFromWebContents(event.sender)
     const win = tab ? this.store.tabToWindow.get(tab) : undefined
-    const view = tab ? this.store.tabToView.get(tab) : undefined
+    const view = win?.getBrowserView()
 
     if (!tab) return
 

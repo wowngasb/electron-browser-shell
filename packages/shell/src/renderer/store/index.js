@@ -59,9 +59,9 @@ export default new Vuex.Store({
     },
     [types.D](state) {
       let D = state.D
-      
+
       let browserYScrollSize = 0
-      let browserX = 0
+      let browserX = 10
       let browserY = 62 + 64
       let drawLeft = 0
 

@@ -79,8 +79,8 @@ export class Extensions extends EventEmitter {
   }
 
   /** Add webContents to be tracked as a tab. */
-  addTab(tab: Electron.WebContents, window: Electron.BrowserWindow, view: Electron.BrowserView) {
-    this.store.addTab(tab, window, view)
+  addTab(tab: Electron.WebContents, window: Electron.BrowserWindow) {
+    this.store.addTab(tab, window)
   }
 
   /** Notify extension system that the active tab has changed. */

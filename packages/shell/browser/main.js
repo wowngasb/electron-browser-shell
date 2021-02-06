@@ -199,7 +199,7 @@ class Browser {
         if (details.url) tab.loadURL(details.url || newTabUrl)
         if (typeof details.active === 'boolean' ? details.active : true) win.tabs.select(tab.id)
 
-        return [tab.webContents, tab.window, tab.view]
+        return [tab.webContents, tab.window]
       },
       selectTab: (tab, browserWindow) => {
         const win = this.getWindowFromBrowserWindow(browserWindow)

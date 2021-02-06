@@ -14,6 +14,8 @@ export const C_Warning = "#ff9900";
 export const C_Error = "#ed3f14";
 
 export const autoSetBrowserViewBounds = ({ browserWidth, browserHeight, browserX, browserY }) => {
+  console.info(`autoSetBrowserViewBounds w:${browserWidth}, h:${browserHeight}, x:${browserX}, y:${browserY}`)
+
   chrome.tabs.onAction('setViewBounds', {
     x: browserX,
     y: browserY,

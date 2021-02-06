@@ -22,6 +22,26 @@
   margin-left: 40px;
   margin-top: 5px;
 }
+
+.app-drag {
+  flex: 1 0 auto;
+  -webkit-app-region: drag;
+  height: calc(100% - 5px);
+  align-self: flex-end;
+}
+
+.window-controls .control {
+  width: 28px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.window-controls .control:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
 </style>
 
 <template>
@@ -50,9 +70,25 @@
               </MenuItem>
             </div>
             <div style="float: right" class="window-controls">
-              <button @click="onAction('mini')" class="control">🗕</button>
-              <button @click="onAction('max')" class="control">🗖</button>
-              <button @click="onAction('close')" class="control">🗙</button>
+              <p style="line-height: 30px">
+                <Button
+                  class="control"
+                  size="small"
+                  @click="onAction('reload')"
+                  icon="ios-color-filter-outline"
+                ></Button>
+                <button @click="onAction('mini')" class="control">🗕</button>
+                <button @click="onAction('max')" class="control">🗖</button>
+                <button @click="onAction('close')" class="control">🗙</button>
+              </p>
+              <p v-if="user.logined" style="line-height: 30px">
+                <Avatar :src="user.avatar" style="background: #619fe7; margin-left: 10px"></Avatar>
+                <span class="main-user-name">{{ user.username }}</span>
+                <a class="control" style="width: 40px; color: #2d8cf0;"  @click="onAction('logout')">退出</a>
+              </p>
+              <p v-else style="line-height: 30px">
+                <Button style="width: 80px; color: #2d8cf0;" class="control" @click="onAction('login')" >请登录</Button>
+              </p>
             </div>
           </Menu>
         </div>
@@ -156,6 +192,8 @@ export default {
 
       } else if (action == 'draw') {
         this.showDraw = payload.show
+      } else if (action == 'reload') {
+        location.reload(true)
       }
     }
   }

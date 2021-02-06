@@ -1796,6 +1796,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1864,6 +1900,8 @@ var topMenus = [{
         chrome.windows.remove();
       } else if (action == 'menu') {} else if (action == 'draw') {
         this.showDraw = payload.show;
+      } else if (action == 'reload') {
+        location.reload(true);
       }
     }
   }
@@ -4075,7 +4113,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/_css-loade
 
 
 // module
-exports.push([module.i, "\n.layout[data-v-2fa9d48e] {\n  border: 1px solid #d7dde4;\n  background: #f5f7f9;\n  position: relative;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.layout-logo[data-v-2fa9d48e] {\n  width: 100px;\n  height: 30px;\n  background: #5b6270;\n  border-radius: 3px;\n  float: left;\n  position: relative;\n  top: 15px;\n  left: 20px;\n}\n.layout-nav[data-v-2fa9d48e] {\n  float: left;\n  margin: 0 auto;\n  margin-left: 40px;\n  margin-top: 5px;\n}\n", ""]);
+exports.push([module.i, "\n.layout[data-v-2fa9d48e] {\n  border: 1px solid #d7dde4;\n  background: #f5f7f9;\n  position: relative;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.layout-logo[data-v-2fa9d48e] {\n  width: 100px;\n  height: 30px;\n  background: #5b6270;\n  border-radius: 3px;\n  float: left;\n  position: relative;\n  top: 15px;\n  left: 20px;\n}\n.layout-nav[data-v-2fa9d48e] {\n  float: left;\n  margin: 0 auto;\n  margin-left: 40px;\n  margin-top: 5px;\n}\n.app-drag[data-v-2fa9d48e] {\n  flex: 1 0 auto;\n  -webkit-app-region: drag;\n  height: calc(100% - 5px);\n  align-self: flex-end;\n}\n.window-controls .control[data-v-2fa9d48e] {\n  width: 28px;\n  background: none;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  -webkit-app-region: no-drag;\n}\n.window-controls .control[data-v-2fa9d48e]:hover {\n  background: rgba(255, 255, 255, 0.2);\n}\n", ""]);
 
 // exports
 
@@ -4094,7 +4132,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/_css-loade
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* CSS */\n", ""]);
+exports.push([module.i, "\n.topbar {\n  background: var(--bg-color);\n  height: 2rem;\n}\n\n/*----- TABS -----*/\n#tabstrip {\n  width: 100%;\n  height: 2rem;\n  display: flex;\n  flex-direction: row;\n}\n.tab-list {\n  height: 100%;\n  display: flex;\n  flex-direction: row;\n  min-width: 0;\n}\n#createtab {\n  background: transparent;\n  border: none;\n  color: #fff;\n  font-weight: bold;\n  font-family: 'Courier New', Courier, monospace;\n}\n#createtab:hover {\n  background: rgba(255, 255, 255, 0.2);\n}\n.tab {\n  padding: 0.2rem 0.4rem;\n  height: 100%;\n  overflow: hidden;\n  display: flex;\n  flex-wrap: nowrap;\n  align-items: center;\n  width: 12rem;\n  box-shadow: inset -1px 0 0 0 rgba(0, 0, 0, 0.33);\n}\n.tab[data-active] {\n  background: var(--tab-color);\n}\n.tab .favicon[src] {\n  width: 16px;\n  height: 16px;\n  margin-right: 0.2rem;\n}\n.tab .title {\n  white-space: nowrap;\n  flex: 1 1 auto;\n  min-width: 0;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  font-size: 0.725rem;\n  user-select: none;\n}\n.tab .controls {\n  flex: 0 0 auto;\n  font-size: 0;\n}\n.tab .controls .control {\n  background: rgba(0, 0, 0, 0.2);\n  border: none;\n  border-radius: 50%;\n  padding: 0;\n  margin-left: 0.2rem;\n  width: 1rem;\n  height: 1rem;\n  color: #aaa;\n  font-size: 0.7rem;\n  vertical-align: middle;\n  line-height: 0;\n  cursor: pointer;\n}\n.tab .controls .control:disabled {\n  display: none;\n}\n\n\n\n\n      /*----- TOOLBAR -----*/\n.toolbar {\n        height: 1.875rem;\n        background-color: var(--tab-color);\n        display: flex;\n        align-items: center;\n        padding: 0.2rem 0.5rem;\n}\n.toolbar .page-controls {\n        margin-right: 0.5rem;\n}\n.address-bar {\n        flex: 1 0 auto;\n        line-height: 0;\n        height: 100%;\n}\n.address-bar input {\n        width: 100%;\n        height: 100%;\n        background: var(--bg-color);\n        color: var(--text-color);\n        border: none;\n        border-radius: 2rem;\n        padding: 0 0.5rem;\n        outline: none;\n}\n.toolbar .control {\n        background: none;\n        border: none;\n        width: 1.5rem;\n        height: 1.5rem;\n        padding: 0;\n        line-height: 0;\n}\n", ""]);
 
 // exports
 
@@ -50458,43 +50496,123 @@ var render = function() {
                       },
                       [
                         _c(
-                          "button",
-                          {
-                            staticClass: "control",
-                            on: {
-                              click: function($event) {
-                                return _vm.onAction("mini")
+                          "p",
+                          { staticStyle: { "line-height": "30px" } },
+                          [
+                            _c("Button", {
+                              staticClass: "control",
+                              attrs: {
+                                size: "small",
+                                icon: "ios-color-filter-outline"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.onAction("reload")
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("🗕")]
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "control",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.onAction("mini")
+                                  }
+                                }
+                              },
+                              [_vm._v("🗕")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "control",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.onAction("max")
+                                  }
+                                }
+                              },
+                              [_vm._v("🗖")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "control",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.onAction("close")
+                                  }
+                                }
+                              },
+                              [_vm._v("🗙")]
+                            )
+                          ],
+                          1
                         ),
                         _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "control",
-                            on: {
-                              click: function($event) {
-                                return _vm.onAction("max")
-                              }
-                            }
-                          },
-                          [_vm._v("🗖")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "control",
-                            on: {
-                              click: function($event) {
-                                return _vm.onAction("close")
-                              }
-                            }
-                          },
-                          [_vm._v("🗙")]
-                        )
+                        _vm.user.logined
+                          ? _c(
+                              "p",
+                              { staticStyle: { "line-height": "30px" } },
+                              [
+                                _c("Avatar", {
+                                  staticStyle: {
+                                    background: "#619fe7",
+                                    "margin-left": "10px"
+                                  },
+                                  attrs: { src: _vm.user.avatar }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "main-user-name" }, [
+                                  _vm._v(_vm._s(_vm.user.username))
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "control",
+                                    staticStyle: {
+                                      width: "40px",
+                                      color: "#2d8cf0"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.onAction("logout")
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("退出")]
+                                )
+                              ],
+                              1
+                            )
+                          : _c(
+                              "p",
+                              { staticStyle: { "line-height": "30px" } },
+                              [
+                                _c(
+                                  "Button",
+                                  {
+                                    staticClass: "control",
+                                    staticStyle: {
+                                      width: "80px",
+                                      color: "#2d8cf0"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.onAction("login")
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("请登录")]
+                                )
+                              ],
+                              1
+                            )
                       ]
                     )
                   ]
@@ -68609,7 +68727,7 @@ vue__WEBPACK_IMPORTED_MODULE_2__["default"].mixin({
     var D = state.D;
 
     var browserYScrollSize = 0;
-    var browserX = 0;
+    var browserX = 10;
     var browserY = 62 + 64;
     var drawLeft = 0;
 
@@ -68673,6 +68791,8 @@ var autoSetBrowserViewBounds = function autoSetBrowserViewBounds(_ref) {
       browserHeight = _ref.browserHeight,
       browserX = _ref.browserX,
       browserY = _ref.browserY;
+
+  console.info("autoSetBrowserViewBounds w:" + browserWidth + ", h:" + browserHeight + ", x:" + browserX + ", y:" + browserY);
 
   chrome.tabs.onAction('setViewBounds', {
     x: browserX,
