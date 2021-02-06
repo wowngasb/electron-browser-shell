@@ -42,6 +42,11 @@
 .window-controls .control:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+.draw-icon {
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 30px;
+  line-height: 30px;
+}
 </style>
 
 <template>
@@ -84,10 +89,17 @@
               <p v-if="user.logined" style="line-height: 30px">
                 <Avatar :src="user.avatar" style="background: #619fe7; margin-left: 10px"></Avatar>
                 <span class="main-user-name">{{ user.username }}</span>
-                <a class="control" style="width: 40px; color: #2d8cf0;"  @click="onAction('logout')">退出</a>
+                <a class="control" style="width: 40px; color: #2d8cf0" @click="onAction('logout')"
+                  >退出</a
+                >
               </p>
               <p v-else style="line-height: 30px">
-                <Button style="width: 80px; color: #2d8cf0;" class="control" @click="onAction('login')" >请登录</Button>
+                <Button
+                  style="width: 80px; color: #2d8cf0"
+                  class="control"
+                  @click="onAction('login')"
+                  >请登录</Button
+                >
               </p>
             </div>
           </Menu>
@@ -100,8 +112,14 @@
           placement="left"
           @change="onAction('draw', { show: $event })"
         >
-          <div class="setting" slot="handler">
-            <Icon :type="showDraw ? 'ios-close' : 'ios-settings-outline'" />
+          <div
+            :style="{
+              marginLeft: (showDraw ? -10 : 0) + 'px',
+            }"
+            class="draw-icon"
+            slot="handler"
+          >
+            <Icon :type="showDraw ? 'ios-arrow-back' : 'ios-arrow-forward'" />
           </div>
           <Sider hide-trigger :style="{ background: '#fff' }">
             <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
@@ -127,8 +145,6 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-
 import MyBrowser from '@/MyBrowser.vue'
 import LayoutDrawer from '@/components/LayoutDrawer.vue'
 
@@ -156,14 +172,18 @@ export default {
   components: { MyBrowser, LayoutDrawer },
   data() {
     return {
-      showSetting: true,
       topMenus
     }
   },
   computed: {
-    ...mapState({
-      showDraw: state => state.D.showDraw
-    }),
+    showDraw: {
+      get() {
+        return this.D.showDraw
+      },
+      set(val) {
+        this.$store.state.D.showDraw = val
+      }
+    }
   },
   created() {
     this.$watch('$store.state.D', (val, old) => {

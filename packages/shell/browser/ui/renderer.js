@@ -1697,13 +1697,9 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/helpers/extends */ "./node_modules/_babel-runtime@6.26.0@babel-runtime/helpers/extends.js");
-/* harmony import */ var babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/_vuex@3.6.2@vuex/dist/vuex.esm.js");
-/* harmony import */ var _MyBrowser_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/MyBrowser.vue */ "./src/renderer/MyBrowser.vue");
-/* harmony import */ var _components_LayoutDrawer_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/LayoutDrawer.vue */ "./src/renderer/components/LayoutDrawer.vue");
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/types */ "./src/renderer/types.js");
-
+/* harmony import */ var _MyBrowser_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/MyBrowser.vue */ "./src/renderer/MyBrowser.vue");
+/* harmony import */ var _components_LayoutDrawer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/LayoutDrawer.vue */ "./src/renderer/components/LayoutDrawer.vue");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/types */ "./src/renderer/types.js");
 //
 //
 //
@@ -1832,8 +1828,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1859,28 +1871,32 @@ var topMenus = [{
 }];
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: { MyBrowser: _MyBrowser_vue__WEBPACK_IMPORTED_MODULE_2__["default"], LayoutDrawer: _components_LayoutDrawer_vue__WEBPACK_IMPORTED_MODULE_3__["default"] },
+  components: { MyBrowser: _MyBrowser_vue__WEBPACK_IMPORTED_MODULE_0__["default"], LayoutDrawer: _components_LayoutDrawer_vue__WEBPACK_IMPORTED_MODULE_1__["default"] },
   data: function data() {
     return {
-      showSetting: true,
       topMenus: topMenus
     };
   },
 
-  computed: babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
-    showDraw: function showDraw(state) {
-      return state.D.showDraw;
+  computed: {
+    showDraw: {
+      get: function get() {
+        return this.D.showDraw;
+      },
+      set: function set(val) {
+        this.$store.state.D.showDraw = val;
+      }
     }
-  })),
+  },
   created: function created() {
     var _this = this;
 
     this.$watch('$store.state.D', function (val, old) {
       console.log('state.D change', val);
-      _types__WEBPACK_IMPORTED_MODULE_4__["autoSetBrowserViewBounds"](_this.D);
+      _types__WEBPACK_IMPORTED_MODULE_2__["autoSetBrowserViewBounds"](_this.D);
     }, { deep: true });
 
-    _types__WEBPACK_IMPORTED_MODULE_4__["autoSetBrowserViewBounds"](this.D);
+    _types__WEBPACK_IMPORTED_MODULE_2__["autoSetBrowserViewBounds"](this.D);
   },
 
   methods: {
@@ -4113,7 +4129,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/_css-loade
 
 
 // module
-exports.push([module.i, "\n.layout[data-v-2fa9d48e] {\n  border: 1px solid #d7dde4;\n  background: #f5f7f9;\n  position: relative;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.layout-logo[data-v-2fa9d48e] {\n  width: 100px;\n  height: 30px;\n  background: #5b6270;\n  border-radius: 3px;\n  float: left;\n  position: relative;\n  top: 15px;\n  left: 20px;\n}\n.layout-nav[data-v-2fa9d48e] {\n  float: left;\n  margin: 0 auto;\n  margin-left: 40px;\n  margin-top: 5px;\n}\n.app-drag[data-v-2fa9d48e] {\n  flex: 1 0 auto;\n  -webkit-app-region: drag;\n  height: calc(100% - 5px);\n  align-self: flex-end;\n}\n.window-controls .control[data-v-2fa9d48e] {\n  width: 28px;\n  background: none;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  -webkit-app-region: no-drag;\n}\n.window-controls .control[data-v-2fa9d48e]:hover {\n  background: rgba(255, 255, 255, 0.2);\n}\n", ""]);
+exports.push([module.i, "\n.layout[data-v-2fa9d48e] {\n  border: 1px solid #d7dde4;\n  background: #f5f7f9;\n  position: relative;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.layout-logo[data-v-2fa9d48e] {\n  width: 100px;\n  height: 30px;\n  background: #5b6270;\n  border-radius: 3px;\n  float: left;\n  position: relative;\n  top: 15px;\n  left: 20px;\n}\n.layout-nav[data-v-2fa9d48e] {\n  float: left;\n  margin: 0 auto;\n  margin-left: 40px;\n  margin-top: 5px;\n}\n.app-drag[data-v-2fa9d48e] {\n  flex: 1 0 auto;\n  -webkit-app-region: drag;\n  height: calc(100% - 5px);\n  align-self: flex-end;\n}\n.window-controls .control[data-v-2fa9d48e] {\n  width: 28px;\n  background: none;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  -webkit-app-region: no-drag;\n}\n.window-controls .control[data-v-2fa9d48e]:hover {\n  background: rgba(255, 255, 255, 0.2);\n}\n.draw-icon[data-v-2fa9d48e] {\n  background-color: rgba(0, 0, 0, 0.2);\n  height: 30px;\n  line-height: 30px;\n}\n", ""]);
 
 // exports
 
@@ -50643,7 +50659,10 @@ var render = function() {
                   _c(
                     "div",
                     {
-                      staticClass: "setting",
+                      staticClass: "draw-icon",
+                      style: {
+                        marginLeft: (_vm.showDraw ? -10 : 0) + "px"
+                      },
                       attrs: { slot: "handler" },
                       slot: "handler"
                     },
@@ -50651,8 +50670,8 @@ var render = function() {
                       _c("Icon", {
                         attrs: {
                           type: _vm.showDraw
-                            ? "ios-close"
-                            : "ios-settings-outline"
+                            ? "ios-arrow-back"
+                            : "ios-arrow-forward"
                         }
                       })
                     ],
@@ -68727,15 +68746,13 @@ vue__WEBPACK_IMPORTED_MODULE_2__["default"].mixin({
     var D = state.D;
 
     var browserYScrollSize = 0;
-    var browserX = 10;
     var browserY = 62 + 64;
-    var drawLeft = 0;
 
-    browserX = D.showDraw ? browserX + 200 : browserX;
-    drawLeft = D.showDraw ? 200 : drawLeft;
+    var browserX = D.showDraw ? 5 + 200 : 10;
+    var drawLeft = D.showDraw ? 200 : 10;
 
-    var browserWidth = D.clientWidth - browserX;
-    var browserHeight = D.clientHeight - browserY;
+    var browserWidth = D.clientWidth - browserX - 5;
+    var browserHeight = D.clientHeight - browserY - 5;
     return babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({
       drawLeft: drawLeft,
       browserX: browserX,
