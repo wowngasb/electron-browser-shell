@@ -195,6 +195,9 @@ export default {
         if (id) {
           this.$store.state.activeTabId = id
           types.updateTab(id, { active: true })
+          this.$nextTick(() => {
+            types.autoSetBrowserViewBounds(this.D)
+          })
         }
       }
     }

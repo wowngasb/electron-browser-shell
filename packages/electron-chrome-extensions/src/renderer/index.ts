@@ -327,7 +327,7 @@ export const injectExtensionAPIs = () => {
             query: invokeExtension('tabs.query'),
             reload: invokeExtension('tabs.reload'),
             update: invokeExtension('tabs.update'),
-            onAction: invokeExtension('tabs.onAction'),
+            doAction: invokeExtension('tabs.doAction'),
             remove: invokeExtension('tabs.remove'),
             goBack: invokeExtension('tabs.goBack'),
             goForward: invokeExtension('tabs.goForward'),

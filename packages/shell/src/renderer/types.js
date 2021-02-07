@@ -22,7 +22,7 @@ export const autoSetBrowserViewBounds = ({ browserWidth, browserHeight, browserX
 
   setViewBoundsTimer && clearTimeout(setViewBoundsTimer)
   setViewBoundsTimer = setTimeout(() => {
-    chrome.tabs.onAction('setViewBounds', {
+    chrome.tabs.doAction('setViewBounds', {
       x: browserX,
       y: browserY,
       width: browserWidth,

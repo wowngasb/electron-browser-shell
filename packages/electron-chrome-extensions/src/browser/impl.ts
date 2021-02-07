@@ -2,7 +2,7 @@
 export interface ChromeExtensionImpl {
   createTab?(
     details: chrome.tabs.CreateProperties
-  ): Promise<[Electron.WebContents, Electron.BrowserWindow, Electron.BrowserView]>
+  ): Promise<[Electron.WebContents, Electron.BrowserWindow, (action: String, params: any) => {}]>
   selectTab?(tab: Electron.WebContents, window: Electron.BrowserWindow): void
   removeTab?(tab: Electron.WebContents, window: Electron.BrowserWindow): void
 

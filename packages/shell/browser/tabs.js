@@ -13,6 +13,20 @@ class Tab {
     this.window.addBrowserView(this.view)
   }
 
+  doAction(action, params) {
+    let ret = null
+    if (action == 'setBounds') {
+      ret = this.window && this.window.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
+    }
+    if (action == 'setViewBounds') {
+      ret = this.view && this.view.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
+    }
+
+    return {
+      ret
+    }
+  }
+
   destroy() {
     if (this.destroyed) return
 

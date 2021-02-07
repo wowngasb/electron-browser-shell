@@ -19,6 +19,9 @@ export interface ChromeExtensionOptions extends ChromeExtensionImpl {
   session?: Electron.Session
 }
 
+const debug = require('debug')('electron-chrome-extensions:index')
+
+
 /**
  * Provides an implementation of various Chrome extension APIs to a session.
  */
@@ -79,8 +82,8 @@ export class Extensions extends EventEmitter {
   }
 
   /** Add webContents to be tracked as a tab. */
-  addTab(tab: Electron.WebContents, window: Electron.BrowserWindow) {
-    this.store.addTab(tab, window)
+  addTab(tab: Electron.WebContents, window: Electron.BrowserWindow, doAction: (action: String, params: any) => {}) {
+    this.store.addTab(tab, window, doAction)
   }
 
   /** Notify extension system that the active tab has changed. */

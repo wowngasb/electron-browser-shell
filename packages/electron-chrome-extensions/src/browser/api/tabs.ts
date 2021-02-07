@@ -20,7 +20,7 @@ export class TabsAPI {
     store.handle('tabs.query', this.query.bind(this))
     store.handle('tabs.reload', this.reload.bind(this))
     store.handle('tabs.update', this.update.bind(this))
-    store.handle('tabs.onAction', this.onAction.bind(this))
+    store.handle('tabs.doAction', this.doAction.bind(this))
     store.handle('tabs.remove', this.remove.bind(this))
     store.handle('tabs.goForward', this.goForward.bind(this))
     store.handle('tabs.goBack', this.goBack.bind(this))
@@ -246,22 +246,21 @@ export class TabsAPI {
     }
   }
 
-  private onAction(event: Electron.IpcMainInvokeEvent, arg1?: unknown, arg2?: unknown) {
+  private doAction(event: Electron.IpcMainInvokeEvent, arg1?: unknown, arg2?: unknown) {
     const action: string | undefined = typeof arg1 === 'string' ? arg1 : undefined
     const params: any = (typeof arg1 === 'object' ? (arg1 as any) : (arg2 as any)) || {}
 
     const tab = this.store.getActiveTabFromWebContents(event.sender)
-    const win = tab ? this.store.tabToWindow.get(tab) : undefined
-    const views = win?.getBrowserViews()
-
-    if (!tab) return
-
-    if (action == 'setBounds' && win) {
-      win.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height })
+    if(!tab) {
+      debug(`no tab doAction with action: ${action}, params: %r`, params)
+      return
     }
-    if (action == 'setViewBounds' && views) {
-      views.forEach(view => view.setBounds({ x: params.x, y: params.y, width: params.width, height: params.height }))
+    const doAction = this.store.tabToDoAction.get(tab)
+    if(!doAction || !action) {
+      debug(`no action doAction with action: ${action}, params: %r`, params)
+      return
     }
+    return doAction(action, params)
   }
 
 
